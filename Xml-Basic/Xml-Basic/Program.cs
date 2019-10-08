@@ -12,6 +12,8 @@ namespace Xml
     {
       Console.WriteLine("Task 1:");
       DemoTask1();
+      Console.WriteLine("\n\n\n\nTask 2:");
+      DemoTask2();
 
       Console.Read();
     }
@@ -56,6 +58,37 @@ namespace Xml
         Console.WriteLine($"Ссылка: \n{item.Link}\n");
         Console.WriteLine($"Описание: \n{item.Description}\n");
         Console.WriteLine($"Дата публикации: {item.PubDate}\n\n");
+      }
+    }
+
+    static void DemoTask2()
+    {
+      List<Student> students = new List<Student>();
+
+      XmlDocument xmlDocument = new XmlDocument();
+      xmlDocument.Load("Student.xml");
+
+      XmlElement rootElement = xmlDocument.DocumentElement;
+      foreach (XmlElement studentElement in rootElement)
+      {
+        XmlElement nameElement = studentElement.GetElementsByTagName("name")[0] as XmlElement;
+        XmlElement ageElement = studentElement.GetElementsByTagName("age")[0] as XmlElement;
+        XmlElement courseElement = studentElement.GetElementsByTagName("course")[0] as XmlElement;
+
+        students.Add(new Student
+        {
+          Name = nameElement.InnerText,
+          Age = int.Parse(ageElement.InnerText),
+          Course = int.Parse(courseElement.InnerText),
+        });
+
+      }
+
+      foreach (var student in students)
+      {
+        Console.WriteLine($"Имя студента: {student.Name}");
+        Console.WriteLine($"Возраст студента: {student.Age}");
+        Console.WriteLine($"Курс: {student.Course}\n");
       }
     }
   }
